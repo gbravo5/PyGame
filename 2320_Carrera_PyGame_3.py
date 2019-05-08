@@ -85,7 +85,16 @@ if __name__ == '__main__':
     race.compete()
     
 
-        
+
+
+
+
+
+
+
+
+
+
 # blit ()        
 #        draw one image onto another
 #        blit(source, dest, area=None, special_flags = 0)
