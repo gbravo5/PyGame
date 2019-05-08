@@ -10,7 +10,7 @@ class Runner():
         __participants = ('fish', 'moray', 'octopus', 'smallball', 'turtle', 'prawn')
         
         __x_coordinate_participant = startline
-        __y_coordinate_participant = (0.15 * height, 0.30 * height, 0.45 * height, 0.60 * height, 0.75 * height, 0.90 * height)
+        __y_coordinate_participant = (160/480 * height, 200/480 * height, 240/480 * height, 280/480 * height, 0.75 * height, 0.85 * height)
         
         self.name = __participants[i]
         self.custome = pygame.image.load('images/{}.png'.format(__participants[i]))
@@ -27,6 +27,7 @@ class Game():
     
     def __init__(self, nb_participants):
         self.__nb_participants = nb_participants
+        
         # 1.- screen:
         # a) create
         size = __width, __height = 640, 480
@@ -39,6 +40,7 @@ class Game():
             # start_finish_lines
         self.__startline = 5/100 * __width
         self.__finishline = 95/100 * __width
+        
         # 2.- participants:
         # class Runner() ---> create + customize each participant
         for i in range(self.__nb_participants):
@@ -46,19 +48,20 @@ class Game():
             # refill listofparticipants
             self.listofrunners.append(runner)
    
+    
     def compete(self):
-        winner = False
-        while not winner:
+        gameover = False
+        while not gameover:
             # manage events
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
-                    sys.exit()
+                    gameover = True
             for runner in self.listofrunners:
+                # x axe
                 runner.move()
                 if runner.coordinates_participant[0] >= self.__finishline:
                     print('the runner {} has won'.format(runner.name))
-                    winner = True
-                    break
+                    gameover = True
             # update
                 # a) draw screen
             self.__coordinates_background = 0, 0
@@ -68,13 +71,20 @@ class Game():
                 self.__screen.blit(runner.custome, runner.coordinates_participant)
             # refresh
             pygame.display.flip()
-
+        
+        while True:
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    pygame.quit()
+                    sys.exit()
 
 if __name__ == '__main__':
     
     pygame.init()
     race = Game(4)
-    race.compete()    
+    race.compete()
+    
+
         
 # blit ()        
 #        draw one image onto another
